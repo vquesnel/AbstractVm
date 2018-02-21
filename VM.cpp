@@ -6,7 +6,7 @@
 /*   By: vquesnel <vquesnel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 13:28:26 by vquesnel          #+#    #+#             */
-/*   Updated: 2018/02/21 13:36:21 by vquesnel         ###   ########.fr       */
+/*   Updated: 2018/02/21 13:58:29 by vquesnel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,80 +101,70 @@ void VM::dump(std::string const &)
 
 void VM::add(std::string const &)
 {
-	if (this->_myStack.size() > 1) {
-		std::vector<IOperand const *>::iterator a = this->_myStack.end() - 1;
-		std::vector<IOperand const *>::iterator b = this->_myStack.end() - 2;
-		auto c = (**a + **b);
-		this->_myStack.pop_back();
-		this->_myStack.pop_back();
-		this->_myStack.push_back(c);
-	}
-	else
+	if (this->_myStack.size() <= 1)
 		throw VM::less_than_two_instruction();
+	std::vector<IOperand const *>::iterator a = this->_myStack.end() - 1;
+	std::vector<IOperand const *>::iterator b = this->_myStack.end() - 2;
+	auto c = (**a + **b);
+	this->_myStack.pop_back();
+	this->_myStack.pop_back();
+	this->_myStack.push_back(c);
 }
 
 void VM::sub(std::string const &)
 {
-	if (this->_myStack.size() > 1) {
-		std::vector<IOperand const *>::iterator a = this->_myStack.end() - 1;
-		std::vector<IOperand const *>::iterator b = this->_myStack.end() - 2;
-
-		auto c = (**b - **a);
-		this->_myStack.pop_back();
-		this->_myStack.pop_back();
-		this->_myStack.push_back(c);
-	}
-	else
+	if (this->_myStack.size() <= 1)
 		throw VM::less_than_two_instruction();
+	std::vector<IOperand const *>::iterator a = this->_myStack.end() - 1;
+	std::vector<IOperand const *>::iterator b = this->_myStack.end() - 2;
+
+	auto c = (**b - **a);
+	this->_myStack.pop_back();
+	this->_myStack.pop_back();
+	this->_myStack.push_back(c);
 }
 
 void VM::mul(std::string const &)
 {
-	if (this->_myStack.size() > 1) {
-		std::vector<IOperand const *>::iterator a = this->_myStack.end() - 1;
-		std::vector<IOperand const *>::iterator b = this->_myStack.end() - 2;
-
-		auto c = (**b * **a);
-		this->_myStack.pop_back();
-		this->_myStack.pop_back();
-		this->_myStack.push_back(c);
-	}
-	else
+	if (this->_myStack.size() <= 1)
 		throw VM::less_than_two_instruction();
+	std::vector<IOperand const *>::iterator a = this->_myStack.end() - 1;
+	std::vector<IOperand const *>::iterator b = this->_myStack.end() - 2;
+	auto c = (**b * **a);
+	this->_myStack.pop_back();
+	this->_myStack.pop_back();
+	this->_myStack.push_back(c);
 }
 
 void VM::div(std::string const &)
 {
-	if (this->_myStack.size() > 1) {
-		std::vector<IOperand const *>::iterator a = this->_myStack.end() - 1;
-		std::vector<IOperand const *>::iterator b = this->_myStack.end() - 2;
-		auto aa = std::stold((*a)->toString().c_str());
-		if (aa >= 0 && aa <= FLT_MIN)
-			throw VM::division_modulo();
-		auto c = (**b / **a);
-		this->_myStack.pop_back();
-		this->_myStack.pop_back();
-		this->_myStack.push_back(c);
-	}
-	else
+	if (this->_myStack.size() <= 1)
 		throw VM::less_than_two_instruction();
+	std::vector<IOperand const *>::iterator a = this->_myStack.end() - 1;
+	std::vector<IOperand const *>::iterator b = this->_myStack.end() - 2;
+	auto aa = std::stold((*a)->toString().c_str());
+	if (aa >= 0 && aa <= FLT_MIN)
+		throw VM::division_modulo();
+	auto c = (**b / **a);
+	this->_myStack.pop_back();
+	this->_myStack.pop_back();
+	this->_myStack.push_back(c);
+
 }
 
 void VM::mod(std::string const &)
 {
-	if (this->_myStack.size() > 1) {
-		std::vector<IOperand const *>::iterator a = this->_myStack.end() - 1;
-		std::vector<IOperand const *>::iterator b = this->_myStack.end() - 2;
-		auto aa = std::stold((*a)->toString().c_str());
-		if (aa == 0)
-			throw VM::division_modulo();
-		auto c = (**b % **a);
-		this->_myStack.pop_back();
-		this->_myStack.pop_back();
-		this->_myStack.push_back(c);
-	}
-	else
+	if (this->_myStack.size() <= 1)
 		throw VM::less_than_two_instruction();
+	std::vector<IOperand const *>::iterator a = this->_myStack.end() - 1;
+	std::vector<IOperand const *>::iterator b = this->_myStack.end() - 2;
+	auto aa = std::stold((*a)->toString().c_str());
+	if (aa == 0)
+		throw VM::division_modulo();
+	auto c = (**b % **a);
+	this->_myStack.pop_back();
+	this->_myStack.pop_back();
+	this->_myStack.push_back(c);
 }
 
 void 	VM::print(std::string const &)
@@ -262,8 +252,7 @@ void	VM::average(std::string const &)
 
 void	VM::dispatcher(std::vector<std::string> const &ref)
 {
-	std::regex re("^\\s*(push|assert|pop|dump|add|sub|mul|div\
-		|mod|print|sin|tan|cos|sqrt|total|average)\\s*(.*)");
+	std::regex re("^\\s*(push|assert|pop|dump|add|sub|mul|div|mod|print|sin|tan|cos|sqrt|total|average)\\s*(.*)");
 	std::smatch sm;
 	for (auto it = ref.begin() ; it != ref.end(); ++it) {
 		if (std::regex_match((*it), sm, re)) {

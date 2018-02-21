@@ -6,7 +6,7 @@
 /*   By: vquesnel <vquesnel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 12:18:12 by vquesnel          #+#    #+#             */
-/*   Updated: 2018/02/21 13:29:22 by vquesnel         ###   ########.fr       */
+/*   Updated: 2018/02/21 13:43:07 by vquesnel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	Reader::read_from_stdin()
 void	Reader::validation(std::string &str, int &line)
 {
 	std::regex regex("^[ ]*((push|assert)[ ]+((int8|int16|int32)[(]([-]?[0-9]+)[)]|"\
-		"(float|double)[(]([-]?[0-9]+[.]?[0-9]?)[)])|"\
+		"(float|double)[(]([-]?[0-9]+[.]?[0-9]+)[)])|"\
     "(pop|dump|add|sub|mul|div|mod|print|sin|cos|tan|sqrt|total|average|exit))\\s*(;.*)?");
 
 	if (!std::regex_match(str, regex)) {
