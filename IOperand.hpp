@@ -6,7 +6,7 @@
 /*   By: vquesnel <vquesnel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 12:08:41 by vquesnel          #+#    #+#             */
-/*   Updated: 2018/02/20 12:10:13 by vquesnel         ###   ########.fr       */
+/*   Updated: 2018/02/21 11:03:49 by vquesnel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ typedef struct	limits
 {
 	double max[5];
 	double min[5];
-}								t_type;
+}				t_type;
 
 class IOperand {
 	public:
-		virtual int 					getPrecision(void) const = 0;
+		virtual int 			getPrecision(void) const = 0;
 		virtual eOperandType 	getType(void) const = 0;
 
 		virtual	IOperand 	const 	*operator+(IOperand const &ref) const = 0;

@@ -6,7 +6,7 @@
 /*   By: vquesnel <vquesnel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 12:28:24 by vquesnel          #+#    #+#             */
-/*   Updated: 2018/02/20 13:25:51 by vquesnel         ###   ########.fr       */
+/*   Updated: 2018/02/21 11:33:47 by vquesnel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
 		try {
 			 reader.read_from_file(argv[1]);
 		}
-		catch (Reader::ExitException & e) {
+		catch (Reader::ExitException &e) {
 			std::cout << e.what() << std::endl;
 			exit(1);
 		}
@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
 		try {
 			reader.read_from_stdin();
 		}
-		catch (Reader::ExitException & e) {
+		catch (Reader::ExitException &e) {
 			std::cout << e.what() << std::endl;
 			exit(1);
 		}
@@ -46,20 +46,13 @@ int main(int argc, char **argv) {
 	if (!reader.getProgressFlag())
 		exit(1);
 	try {
-		vm.find_command(reader.getVector());
+		vm.dispatcher(reader.getVector());
 	}
-	catch (VM::emptystack &e) {
+	catch (VM::VM_Exceptions &e) {
 		 std::cout << e.what() << std::endl;
 	 }
-	catch (VM::assertInstruction &e) 			{ std::cout << e.what() << std::endl; }
-	catch (Operand::OverflowException_res & e) 	{ std::cout << e.what() << std::endl; }
-	catch (Operand::UnderflowException_res & e) { std::cout << e.what() << std::endl; }
-	catch (Operand::OverflowException_val & e) 	{ std::cout << e.what() << std::endl; }
-	catch (Operand::UnderflowException_val & e) { std::cout << e.what() << std::endl; }
-	catch (VM::less_than_two_instruction & e) 	{ std::cout << e.what() << std::endl; }
-	catch (VM::division_modulo & e)				{ std::cout << e.what() << std::endl; }
-	catch (VM::print_exception & e)				{ std::cout << e.what() << std::endl; }
-
-
+	catch (Operand::Operand_Exceptions &e) {
+		std::cout << e.what() << std::endl;
+	}
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: vquesnel <vquesnel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 12:18:12 by vquesnel          #+#    #+#             */
-/*   Updated: 2018/02/20 13:25:51 by vquesnel         ###   ########.fr       */
+/*   Updated: 2018/02/21 13:29:22 by vquesnel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,14 @@ void	Reader::read_from_stdin()
 	while (getline(std::cin, buff)) {
 		if (std::regex_match(buff, std::regex("(exit)\\s*(;.*)?")))
 			this->_exitFlag = true;
-		if (buff == ";;") {
+		else if (buff == ";;") {
 			if (this->_exitFlag)
 				break;
 			else
 				throw Reader::ExitException();
 		}
+		else if (buff.empty())
+			continue ;
 		else if (std::regex_match(buff, std::regex("\\s*[;].*")))
 			continue ;
 		++line;
@@ -80,7 +82,7 @@ void	Reader::validation(std::string &str, int &line)
 {
 	std::regex regex("^[ ]*((push|assert)[ ]+((int8|int16|int32)[(]([-]?[0-9]+)[)]|"\
 		"(float|double)[(]([-]?[0-9]+[.]?[0-9]?)[)])|"\
-    "(pop|dump|add|sub|mul|div|mod|print|exit))\\s*(;.*)?");
+    "(pop|dump|add|sub|mul|div|mod|print|sin|cos|tan|sqrt|total|average|exit))\\s*(;.*)?");
 
 	if (!std::regex_match(str, regex)) {
 		std::cout << "Line "<< line << ": " << str << std::endl;
@@ -101,7 +103,7 @@ bool Reader::getProgressFlag() const
 
 void Reader::error_manager(std::string & str)
 {
-	std::regex re("(push|assert|pop|dump|add|sub|mul|div|mod|print|exit).*");
+	std::regex re("(push|assert|pop|dump|add|sub|mul|div|mod|print|cos|sin|tan|total|average|exit).*");
 	try {
 		if (std::regex_match(str, re))
 			throw Reader::lex_syn_error();

@@ -6,7 +6,7 @@
 /*   By: vquesnel <vquesnel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 11:55:37 by vquesnel          #+#    #+#             */
-/*   Updated: 2018/02/20 11:58:45 by vquesnel         ###   ########.fr       */
+/*   Updated: 2018/02/21 11:33:47 by vquesnel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 
 class Operand : public IOperand {
 	private:
-		static FactoryMethod	FACTORY_METHOD;
-		static const t_type		LIMITS;
+		static FactoryMethod	_FACTORY_METHOD;
+		static const t_type		_LIMITS;
 		eOperandType 					_eType;
 		std::string 					_data;
 		Operand(void);
@@ -40,20 +40,21 @@ class Operand : public IOperand {
 		int 							getPrecision(void) const;
 		eOperandType 			getType(void) const;
 		std::string const &toString(void) const;
+		class Operand_Exceptions: public std::exception {};
 
-		class OverflowException_res: public std::exception {
+		class OverflowException_res: public Operand_Exceptions {
 			public:
 				const char* what() const throw();
 		};
-		class UnderflowException_res: public std::exception {
+		class UnderflowException_res: public Operand_Exceptions {
 			public:
 				const char* what() const throw();
 		};
-		class OverflowException_val: public std::exception {
+		class OverflowException_val: public Operand_Exceptions {
 			public:
 				const char* what() const throw();
 		};
-		class UnderflowException_val: public std::exception {
+		class UnderflowException_val: public Operand_Exceptions {
 		public:
 			const char* what() const throw();
 		};

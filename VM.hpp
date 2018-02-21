@@ -6,7 +6,7 @@
 /*   By: vquesnel <vquesnel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 11:52:36 by vquesnel          #+#    #+#             */
-/*   Updated: 2018/02/20 13:28:42 by vquesnel         ###   ########.fr       */
+/*   Updated: 2018/02/21 13:36:07 by vquesnel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@
 
 class VM {
 	private:
-		std::vector<IOperand const *> myStack;
-		static FactoryMethod FM;
-		std::map<std::string, void (VM::*)(std::string const &)> myMap;
-		std::map<std::string, eOperandType> myOperations;
-		VM(VM const & rhs);
-		VM& operator= (VM const & rhs);
+		std::vector<IOperand const *> _myStack;
+		static FactoryMethod _FM;
+		std::map<std::string, void (VM::*)(std::string const &)> _myMap;
+		std::map<std::string, eOperandType> _myOperations;
+		VM(VM const &rhs);
+		VM& operator=(VM const &rhs);
 	public:
 		VM();
 		~VM();
 
-		void	push(std::string const & );
-		void	assert(std::string const & );
-		void	pop(std::string const & );
+		void	push(std::string const &);
+		void	assert(std::string const &);
+		void	pop(std::string const &);
 		void 	dump(std::string const &);
 		void 	add(std::string const &);
 		void 	sub(std::string const &);
@@ -42,24 +42,35 @@ class VM {
 		void 	div(std::string const &);
 		void 	mod(std::string const &);
 		void 	print(std::string const &);
-		void	find_command(std::vector<std::string> const & );
-		class emptystack: public std::exception {
+		void 	avmSin(std::string const &);
+		void 	avmCos(std::string const &);
+		void 	avmTan(std::string const &);
+		void 	avmSqrt(std::string const &);
+		void	total(std::string const &);
+		void	average(std::string const &);
+		void	dispatcher(std::vector<std::string> const &);
+		class VM_Exceptions : public std::exception {};
+		class emptystack: public VM_Exceptions {
 			public:
 				const char* what() const throw();
 		};
-		class assertInstruction: public std::exception {
+		class assertInstruction: public VM_Exceptions {
 			public:
 				const char* what() const throw();
 		};
-		class less_than_two_instruction: public std::exception {
+		class less_than_two_instruction: public VM_Exceptions {
 			public:
 				const char* what() const throw();
 		};
-		class division_modulo: public std::exception {
+		class division_modulo: public VM_Exceptions {
 			public:
 				const char* what() const throw();
 		};
-		class print_exception: public std::exception {
+		class print_exception: public VM_Exceptions {
+			public:
+				const char* what() const throw();
+		};
+		class negativesqrt: public VM_Exceptions {
 			public:
 				const char* what() const throw();
 		};

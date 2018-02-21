@@ -6,7 +6,7 @@
 /*   By: vquesnel <vquesnel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 12:04:37 by vquesnel          #+#    #+#             */
-/*   Updated: 2018/02/20 13:25:56 by vquesnel         ###   ########.fr       */
+/*   Updated: 2018/02/21 11:58:38 by vquesnel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #include "FactoryMethod.hpp"
 #include "IOperand.hpp"
 
-const t_type Operand::LIMITS = {
+const t_type Operand::_LIMITS = {
 	{ INT8_MAX, INT16_MAX, INT32_MAX, FLT_MAX, DBL_MAX},
 	{ INT8_MIN, INT16_MIN, INT32_MIN, -FLT_MAX, -DBL_MAX }
 };
 
-FactoryMethod	Operand::FACTORY_METHOD;
+FactoryMethod	Operand::_FACTORY_METHOD;
 
 Operand::Operand()
 {
@@ -31,7 +31,6 @@ Operand::Operand(const std::string &data) :
 {
 	return;
 }
-
 
 Operand::Operand(eOperandType eType, const std::string &data) :
 	_eType(eType),
@@ -51,26 +50,25 @@ eOperandType Operand::getType(void) const { return this->_eType; }
 
 std::string const &Operand::toString(void) const { return this->_data; }
 
-
 IOperand const *Operand::operator+(IOperand const &rhs) const
 {
 	eOperandType 	type = std::max(this->getType(), rhs.getType());
 
 	if (type <= eOperandType::Int32) {
 		auto res = std::stoll(this->_data) + std::stoll(rhs.toString());
-		if (res > Operand::LIMITS.max[type])
+		if (res > Operand::_LIMITS.max[type])
 			throw Operand::OverflowException_res();
-		else if (res < Operand::LIMITS.min[type])
+		else if (res < Operand::_LIMITS.min[type])
 			throw Operand::UnderflowException_res();
-		return FACTORY_METHOD.createOperand(type, std::to_string(res));
+		return _FACTORY_METHOD.createOperand(type, std::to_string(res));
 	}
 	else {
 		auto res = std::stold(this->_data) + std::stold(rhs.toString());
-		if (res > Operand::LIMITS.max[type])
+		if (res > Operand::_LIMITS.max[type])
 			throw Operand::OverflowException_res();
-		else if (res < Operand::LIMITS.min[type])
+		else if (res < Operand::_LIMITS.min[type])
 			throw Operand::UnderflowException_res();
-		return FACTORY_METHOD.createOperand(type, std::to_string(res));
+		return _FACTORY_METHOD.createOperand(type, std::to_string(res));
 	}
 }
 
@@ -79,19 +77,19 @@ IOperand const *Operand::operator-(IOperand const &rhs) const
 	eOperandType 	type = std::max(this->getType(), rhs.getType());
 	if (type <= eOperandType::Int32) {
 		auto res = std::stoll(this->_data) - std::stoll(rhs.toString());
-		if (res > Operand::LIMITS.max[type])
+		if (res > Operand::_LIMITS.max[type])
 			throw Operand::OverflowException_res();
-		else if (res < Operand::LIMITS.min[type])
+		else if (res < Operand::_LIMITS.min[type])
 			throw Operand::UnderflowException_res();
-		return FACTORY_METHOD.createOperand(type, std::to_string(res));
+		return _FACTORY_METHOD.createOperand(type, std::to_string(res));
 	}
 	else {
 		auto res = std::stold(this->_data) - std::stold(rhs.toString());
-		if (res > Operand::LIMITS.max[type])
+		if (res > Operand::_LIMITS.max[type])
 			throw Operand::OverflowException_res();
-		else if (res < Operand::LIMITS.min[type])
+		else if (res < Operand::_LIMITS.min[type])
 			throw Operand::UnderflowException_res();
-		return FACTORY_METHOD.createOperand(type, std::to_string(res));
+		return _FACTORY_METHOD.createOperand(type, std::to_string(res));
 	}
 }
 
@@ -101,19 +99,19 @@ IOperand const *Operand::operator*(IOperand const &rhs) const
 	eOperandType 	type = std::max(this->getType(), rhs.getType());
 	if (type <= eOperandType::Int32) {
 		auto res = std::stoll(this->_data) * std::stoll(rhs.toString());
-		if (res > Operand::LIMITS.max[type])
+		if (res > Operand::_LIMITS.max[type])
 			throw Operand::OverflowException_res();
-		else if (res < Operand::LIMITS.min[type])
+		else if (res < Operand::_LIMITS.min[type])
 			throw Operand::UnderflowException_res();
-		return FACTORY_METHOD.createOperand(type, std::to_string(res));
+		return _FACTORY_METHOD.createOperand(type, std::to_string(res));
 	}
 	else {
 		auto res = std::stold(this->_data) * std::stold(rhs.toString());
-		if (res > Operand::LIMITS.max[type])
+		if (res > Operand::_LIMITS.max[type])
 			throw Operand::OverflowException_res();
-		else if (res < Operand::LIMITS.min[type])
+		else if (res < Operand::_LIMITS.min[type])
 			throw Operand::UnderflowException_res();
-		return FACTORY_METHOD.createOperand(type, std::to_string(res));
+		return _FACTORY_METHOD.createOperand(type, std::to_string(res));
 	}
 }
 
@@ -142,19 +140,19 @@ IOperand const *Operand::operator/(IOperand const &rhs) const
 	eOperandType 	type = std::max(this->getType(), rhs.getType());
 	if (type <= eOperandType::Int32) {
 		auto res = std::stoll(this->_data) / std::stoll(rhs.toString());
-		if (res > Operand::LIMITS.max[type])
+		if (res > Operand::_LIMITS.max[type])
 			throw Operand::OverflowException_res();
-		else if (res < Operand::LIMITS.min[type])
+		else if (res < Operand::_LIMITS.min[type])
 			throw Operand::UnderflowException_res();
-		return FACTORY_METHOD.createOperand(type, std::to_string(res));
+		return _FACTORY_METHOD.createOperand(type, std::to_string(res));
 	}
 	else {
 		auto res = std::stold(this->_data) / std::stold(rhs.toString());
-		if (res > Operand::LIMITS.max[type])
+		if (res > Operand::_LIMITS.max[type])
 			throw Operand::OverflowException_res();
-		else if (res < Operand::LIMITS.min[type])
+		else if (res < Operand::_LIMITS.min[type])
 			throw Operand::UnderflowException_res();
-		return FACTORY_METHOD.createOperand(type, std::to_string(res));
+		return _FACTORY_METHOD.createOperand(type, std::to_string(res));
 	}
 }
 
@@ -163,18 +161,18 @@ const IOperand *Operand::operator%(const IOperand &rhs) const
 	eOperandType 	type = std::max(this->getType(), rhs.getType());
 	if (type <= eOperandType::Int32) {
 		auto res = std::stoll(this->_data) % std::stoll(rhs.toString());
-		if (res > Operand::LIMITS.max[type])
+		if (res > Operand::_LIMITS.max[type])
 			throw Operand::OverflowException_res();
-		else if (res < Operand::LIMITS.min[type])
+		else if (res < Operand::_LIMITS.min[type])
 			throw Operand::UnderflowException_res();
-		return FACTORY_METHOD.createOperand(type, std::to_string(res));
+		return _FACTORY_METHOD.createOperand(type, std::to_string(res));
 	}
 	else {
 		auto res = static_cast<int64_t>(std::stold(this->_data)) % static_cast<int64_t >(std::stold(rhs.toString()));
-		if (res > Operand::LIMITS.max[type])
+		if (res > Operand::_LIMITS.max[type])
 			throw Operand::OverflowException_res();
-		else if (res < Operand::LIMITS.min[type])
+		else if (res < Operand::_LIMITS.min[type])
 			throw Operand::UnderflowException_res();
-		return FACTORY_METHOD.createOperand(type, std::to_string(res));
+		return _FACTORY_METHOD.createOperand(type, std::to_string(res));
 	}
 }
