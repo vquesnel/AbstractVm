@@ -6,7 +6,7 @@
 /*   By: vquesnel <vquesnel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 13:28:26 by vquesnel          #+#    #+#             */
-/*   Updated: 2018/02/21 13:58:29 by vquesnel         ###   ########.fr       */
+/*   Updated: 2018/02/21 14:30:46 by vquesnel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void VM::assert(std::string const &str)
 
 void VM::pop(std::string const &)
 {
-
 	if (this->_myStack.empty())
 		throw VM::emptystack();
 	delete this->_myStack.back();
