@@ -6,7 +6,7 @@
 /*   By: vquesnel <vquesnel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 12:18:12 by vquesnel          #+#    #+#             */
-/*   Updated: 2018/02/21 13:43:07 by vquesnel         ###   ########.fr       */
+/*   Updated: 2018/02/26 12:44:35 by vquesnel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	Reader::read_from_file(std::string nameFile)
 			else if (std::regex_match(buff, std::regex("\\s*[;].*")))
 				continue;
 			++line;
-			validation(buff, line);
+			validation(buff, line, true);
 			this->inputData.emplace_back(buff);
 		}
 		if (!this->_exitFlag)
@@ -73,12 +73,12 @@ void	Reader::read_from_stdin()
 		else if (std::regex_match(buff, std::regex("\\s*[;].*")))
 			continue ;
 		++line;
-		validation(buff, line);
+		validation(buff, line, false);
 		this->inputData.emplace_back(buff);
 	}
 }
 
-void	Reader::validation(std::string &str, int &line)
+void	Reader::validation(std::string &str, int &line, bool file)
 {
 	std::regex regex("^[ ]*((push|assert)[ ]+((int8|int16|int32)[(]([-]?[0-9]+)[)]|"\
 		"(float|double)[(]([-]?[0-9]+[.]?[0-9]+)[)])|"\
@@ -86,7 +86,7 @@ void	Reader::validation(std::string &str, int &line)
 
 	if (!std::regex_match(str, regex)) {
 		std::cout << "Line "<< line << ": " << str << std::endl;
-		this->_progressFlag = false;
+		this->_progressFlag = file ? false : true;
 		error_manager(str);
 	}
 }

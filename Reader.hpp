@@ -6,7 +6,7 @@
 /*   By: vquesnel <vquesnel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/20 11:51:06 by vquesnel          #+#    #+#             */
-/*   Updated: 2018/02/20 12:26:20 by vquesnel         ###   ########.fr       */
+/*   Updated: 2018/02/26 12:41:50 by vquesnel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ class Reader {
 		bool 	getProgressFlag() const;
 		std::vector<std::string> const &getVector() const;
 		void 	error_manager(std::string &);
-		void	validation(std::string & , int &);
+		void	validation(std::string & , int &, bool file);
 
 		class ExitException: public std::exception {
 			public:

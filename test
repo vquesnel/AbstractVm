@@ -1,0 +1,9 @@
+push int8(42)
+print
+psh int8(12)
+print
+dmp
+add
+print
+dump
+exit
